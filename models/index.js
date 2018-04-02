@@ -1,0 +1,1 @@
+exports.Dog = require('./dog');
