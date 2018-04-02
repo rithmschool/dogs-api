@@ -14,6 +14,16 @@ const dogSchema = new mongoose.Schema({
   }
 });
 
+// after new Dog .save() query runs
+dogSchema.post('save', dog => {
+  // call the owner model and update its dogs array
+  Owner.findOneAndUpdate(dog.owner, { $addToSet: { dogs: dog._id } }).then(
+    () => {
+      console.log('POST HOOK RAN');
+    }
+  );
+});
+
 // after Dog.findOneAndUpdate query runs
 dogSchema.post('findOneAndUpdate', dog => {
   // call the owner model and update its dogs array
