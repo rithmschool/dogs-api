@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const { dogsRouter } = require('./routers');
+const { dogsRouter, ownersRouter } = require('./routers');
 
 const app = express();
 
@@ -23,6 +23,7 @@ mongoose
 const PORT = 7777;
 
 app.use('/dogs', dogsRouter);
+app.use('/owners', ownersRouter);
 
 app.listen(PORT, () => {
   console.log(`Dogs API is listening on port ${PORT}`);

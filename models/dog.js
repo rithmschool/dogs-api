@@ -6,7 +6,11 @@ const dogSchema = new mongoose.Schema({
   age: Number,
   sex: String,
   isCute: Boolean,
-  isEvil: Boolean
+  isEvil: Boolean,
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Owner'
+  }
 });
 
 module.exports = mongoose.model('Dog', dogSchema); // "class"
