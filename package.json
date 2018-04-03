@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage --watch"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +14,8 @@
     "express": "^4.16.3",
     "jsonschema": "^1.2.3",
     "mongoose": "^5.0.12"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3"
   }
 }
