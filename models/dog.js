@@ -22,21 +22,25 @@ dogSchema.statics = {
    * @param {Object} newDog an instance of a dog document
    */
   createDog(newDog) {
-    return this.findOne({ name: newDog.name }).then(dog => {
-      if (dog) {
-        throw new Error(`THAT DOG ${newDog.name} EXISTS ALREADY`);
-      }
-      return newDog
-        .save()
-        .then(d =>
-          Owner.findOneAndUpdate(d.owner, {
-            $addToSet: { dogs: d._id }
-          }).then(() => d)
-        )
-        .catch(err => {
-          return Promise.reject(err);
-        });
-    });
+    return this.findOne({ name: newDog.name })
+      .then(dog => {
+        if (dog) {
+          throw new Error(`THAT DOG ${newDog.name} EXISTS ALREADY`);
+        }
+        return newDog
+          .save()
+          .then(finalDog =>
+            Owner.findOneAndUpdate(finalDog.owner, {
+              $addToSet: { dogs: finalDog._id }
+            }).then(() => finalDog)
+          )
+          .catch(err => {
+            return Promise.reject(err);
+          });
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
   }
 };
 

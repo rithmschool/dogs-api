@@ -5,10 +5,11 @@ const { newDogSchema } = require('../schemas');
 
 function createDog(req, res, next) {
   const result = v.validate(req.body, newDogSchema);
-  if (!result.isValid) {
-    return next(result.errorMessage);
+  if (!result.valid) {
+    const errors = result.errors.map(e => e.message).join(', ');
+    return next({ message: errors });
   }
-  Dog.createDog(new Dog(req.body))
+  return Dog.createDog(new Dog(req.body))
     .then(dog => res.json(dog))
     .catch(err => next(err));
 }
