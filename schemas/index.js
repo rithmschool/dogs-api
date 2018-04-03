@@ -1,0 +1,1 @@
+exports.newDogSchema = require('./newDog');

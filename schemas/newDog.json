@@ -1,0 +1,51 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "$id": "/properties/name",
+      "type": "string",
+      "title": "The Name Schema ",
+      "default": "",
+      "examples": ["Fenris"],
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "breed": {
+      "$id": "/properties/breed",
+      "type": "string",
+      "title": "The Breed Schema ",
+      "default": "",
+      "examples": ["chihuahua"]
+    },
+    "age": {
+      "$id": "/properties/age",
+      "type": "integer",
+      "title": "The Age Schema ",
+      "default": 0,
+      "examples": [3]
+    },
+    "sex": {
+      "$id": "/properties/sex",
+      "type": "string",
+      "title": "The Sex Schema ",
+      "default": "",
+      "examples": ["female"]
+    },
+    "isCute": {
+      "$id": "/properties/isCute",
+      "type": "boolean",
+      "title": "The Iscute Schema ",
+      "default": false,
+      "examples": [false]
+    },
+    "isEvil": {
+      "$id": "/properties/isEvil",
+      "type": "boolean",
+      "title": "The Isevil Schema ",
+      "default": false,
+      "examples": [true]
+    }
+  },
+  "required": ["name"]
+}

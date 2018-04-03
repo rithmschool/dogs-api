@@ -14,15 +14,31 @@ const dogSchema = new mongoose.Schema({
   }
 });
 
-// after new Dog .save() query runs
-dogSchema.post('save', dog => {
-  // call the owner model and update its dogs array
-  Owner.findOneAndUpdate(dog.owner, { $addToSet: { dogs: dog._id } }).then(
-    () => {
-      console.log('POST HOOK RAN');
-    }
-  );
-});
+dogSchema.statics = {
+  // stuff in this object will appear on the Dog model as methods
+
+  /**
+   * Create a new dog. Assume that the dog has an owner already
+   * @param {Object} newDog an instance of a dog document
+   */
+  createDog(newDog) {
+    return this.findOne({ name: newDog.name }).then(dog => {
+      if (dog) {
+        throw new Error(`THAT DOG ${newDog.name} EXISTS ALREADY`);
+      }
+      return newDog
+        .save()
+        .then(d =>
+          Owner.findOneAndUpdate(d.owner, {
+            $addToSet: { dogs: d._id }
+          }).then(() => d)
+        )
+        .catch(err => {
+          return Promise.reject(err);
+        });
+    });
+  }
+};
 
 // after Dog.findOneAndUpdate query runs
 dogSchema.post('findOneAndUpdate', dog => {

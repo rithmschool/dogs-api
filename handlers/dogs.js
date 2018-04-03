@@ -1,16 +1,27 @@
 const { Dog } = require('../models');
+const Validator = require('jsonschema').Validator;
+const v = new Validator();
+const { newDogSchema } = require('../schemas');
 
 function createDog(req, res, next) {
-  const newDog = new Dog(req.body);
-  newDog.save().then(dog => {
-    return res.status(201).json(dog);
-  });
+  const result = v.validate(req.body, newDogSchema);
+  if (!result.isValid) {
+    return next(result.errorMessage);
+  }
+  Dog.createDog(new Dog(req.body))
+    .then(dog => res.json(dog))
+    .catch(err => next(err));
 }
 
 function readDogs(req, res, next) {
-  return Dog.find().then(dogs => {
-    return res.json(dogs);
-  });
+  const limit = req.query.limit;
+  return Dog.find()
+    .limit(limit)
+    .exec()
+    .then(dogs => {
+      return res.json(dogs);
+    })
+    .catch(err => next(err));
 }
 
 function readDog(req, res, next) {
